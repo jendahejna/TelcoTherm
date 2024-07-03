@@ -14,7 +14,8 @@ PRAGUE_TZ = pytz.timezone("Europe/Prague")
 token = os.getenv("INFLUX_TOKEN")
 url = os.getenv("INFLUX_URL")
 backend_logger = logging.getLogger('backend_logger')
-
+org = os.getenv("ORG")
+bucket = os.getenv("BUCKET")
 # Funkce pro zjištění denního světla
 def is_daylight(time):
     location = LocationInfo(latitude=LAT, longitude=LNG)
@@ -31,8 +32,6 @@ def get_data(retry_count=3):
 
         try:
             client = InfluxDBClient(url=url, token=token)
-            org = "vut"
-            bucket = "realtime_cbl"
 
             # UTC čas
             now_utc = datetime.utcnow()
