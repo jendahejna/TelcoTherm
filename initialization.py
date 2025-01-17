@@ -16,7 +16,7 @@ DB_CONFIG = {
 }
 
 CZECH_DATA_PATH = "country_data/czech_republic.json"
-
+TIF_PATH = "country_data/elevation_data.tif"
 
 
 def wait_for_next_hour():
@@ -24,7 +24,7 @@ def wait_for_next_hour():
     next_hour = (now + timedelta(hours=1)).replace(minute=0, second=0, microsecond=0)
     sleep((next_hour - now).seconds)
 
-def initialize_app(config, data_path):
+def initialize_app(config, data_path, tif_path):
     engine = create_engine(
         f"mysql://{config['user']}:{config['password']}@{config['host']}:{config['port']}"
     )
@@ -32,4 +32,5 @@ def initialize_app(config, data_path):
     geo_proc = GeographicalProcessing()
     state = geo_proc.load_country_data(data_path)
     czech_rep = geo_proc.json_to_geodataframe(state)
-    return db_ops, geo_proc, czech_rep
+    elevation_data, lon_elev, lat_elev = geo_proc.load_elevation_data(tif_path)
+    return db_ops, geo_proc, czech_rep, elevation_data, lon_elev, lat_elev
