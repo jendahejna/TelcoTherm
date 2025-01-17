@@ -7,6 +7,7 @@ from initialization import (
     DB_CONFIG,
     CZECH_DATA_PATH,
     wait_for_next_hour,
+    TIF_PATH
 )
 from data_processing.data_processing import process_data_round
 
@@ -51,9 +52,9 @@ def run_flask_app():
 
 
 def data_processing_loop():
-    db_ops, geo_proc, czech_rep = initialize_app(DB_CONFIG, CZECH_DATA_PATH)
+    db_ops, geo_proc, czech_rep, elevation_data, lon_elev, lat_elev = initialize_app(DB_CONFIG, CZECH_DATA_PATH, TIF_PATH)
     while True:
-        process_data_round(db_ops, geo_proc, czech_rep)
+        process_data_round(db_ops, geo_proc, czech_rep, elevation_data, lon_elev, lat_elev)
         wait_for_next_hour()
 
 
