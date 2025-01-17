@@ -1,8 +1,8 @@
 import logging
-from data_processing.ml_modeling import predict_temperature
-from interpolation.interpolation import interpolate_temperature
-from database_operations.data_extraction import get_data, is_daylight
-from spatial_processing.visualization import get_heatmap
+from data_processing.ml_modeling import predict_temperature, temperature_predict
+from interpolation.interpolation import interpolate_temperature, spatial_interpolation
+from database_operations.data_extraction import get_data
+from spatial_processing.visualization import get_heatmap, map_plotting
 import pandas as pd
 import datetime
 import gc
@@ -15,8 +15,9 @@ def collect_data_summary(df):
     unique_links = df["Link_ID"].unique()
     unique_links_list = list(unique_links)
 
-    image_time = df["Hour"].iloc[0].strftime("%Y-%m-%d %H:%M:%S")
-    image_hour = df["Hour"].iloc[0].strftime("%Y-%m-%d_%H%M")
+    df["Image_Hour"] = pd.to_datetime(df["Hour"], unit="h")
+    image_time = df["Image_Hour"].iloc[0].strftime("%Y-%m-%d %H:%M:%S")
+    image_hour = df["Image_Hour"].iloc[0].strftime("%Y-%m-%d_%H%M")
     image_name = f"{image_hour}.png"
 
     return unique_links_list, image_name, image_time
@@ -32,12 +33,12 @@ def prepare_data(df, latitudes, longitudes, azimuths, links):
 
     df["Time"] = pd.to_datetime(df["Time"], utc=True)
     df["Time"] = df["Time"].dt.tz_convert("Europe/Prague")
-    df["Hour"] = df["Time"].dt.round("H")
-
+    df["Hour"] = df["Time"].dt.hour
+    df["Day"] = df["Time"].dt.dayofyear
     return df
 
 
-def process_data_round(db_ops, geo_proc, czech_rep):
+def process_data_round(db_ops, geo_proc, czech_rep, elevation_data, lon_elev, lat_elev):
     global first_run
     start_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     backend_logger.info(f"Calculation started on {start_datetime}")
@@ -47,12 +48,12 @@ def process_data_round(db_ops, geo_proc, czech_rep):
         latitudes, longitudes, azimuths, links = db_ops.get_metadata(df)
         df = prepare_data(df, latitudes, longitudes, azimuths, links)
         unique_links_list, image_name, image_time = collect_data_summary(df)
-        df = predict_temperature(df)
-        grid_x, grid_y, grid_z = interpolate_temperature(df, czech_rep, geo_proc)
+        df = temperature_predict(df)
+        #grid_x, grid_y, grid_z = interpolate_temperature(df, czech_rep, geo_proc)
+        grid_x, grid_y, grid_z = spatial_interpolation(df, czech_rep, geo_proc, elevation_data, lon_elev, lat_elev)
         db_ops.realtime_writer(image_name, unique_links_list, image_time, grid_z)
         db_ops.save_parameters(start_datetime, grid_x, grid_y)
-
-        get_heatmap(grid_x, grid_y, grid_z, czech_rep, f"saved_grids/{image_name}")
+        map_plotting(grid_x, grid_y, grid_z, czech_rep)
     except Exception as e:
         backend_logger.error(f"Error during data processing round: {e}\n{traceback.format_exc()}")
 
