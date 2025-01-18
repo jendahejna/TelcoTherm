@@ -77,7 +77,7 @@ def get_heatmap(
     plt.close()
 
 
-def map_plotting(grid_x, grid_y, grid_z, czech_rep, show_boundary=False):
+def map_plotting(grid_x, grid_y, grid_z, czech_rep, image_name, show_boundary=False):
     cmap = mcolors.LinearSegmentedColormap.from_list(
         "custom_colormap",
         COLORBAR_SETTINGS["colormap"],
@@ -106,13 +106,14 @@ def map_plotting(grid_x, grid_y, grid_z, czech_rep, show_boundary=False):
     ax.set_axis_off()
     save_dir = "saved_grids"
     os.makedirs(save_dir, exist_ok=True)
-    save_path = os.path.join(save_dir, "first_map.png")
+    save_path = os.path.join(save_dir, f"{image_name}.png")
+
 
     plt.savefig(
-        save_path,
-        format="png",
-        dpi=150,
-        transparent=True,
-        bbox_inches="tight",
-        pad_inches=0,
-    )
+            save_path,
+            format="png",
+            dpi=150,
+            transparent=True,
+            bbox_inches="tight",
+            pad_inches=0,
+        )
