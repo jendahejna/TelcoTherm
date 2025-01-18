@@ -15,9 +15,9 @@ def collect_data_summary(df):
     unique_links = df["Link_ID"].unique()
     unique_links_list = list(unique_links)
 
-    df["Image_Hour"] = pd.to_datetime(df["Hour"], unit="h")
-    image_time = df["Image_Hour"].iloc[0].strftime("%Y-%m-%d %H:%M:%S")
-    image_hour = df["Image_Hour"].iloc[0].strftime("%Y-%m-%d_%H%M")
+    # Získání času a list linků
+    image_time = pd.to_datetime(df["Time"].iloc[0]).ceil('H')
+    image_hour = image_time.strftime("%Y-%m-%d_%H%M")
     image_name = f"{image_hour}.png"
 
     return unique_links_list, image_name, image_time
@@ -49,11 +49,10 @@ def process_data_round(db_ops, geo_proc, czech_rep, elevation_data, lon_elev, la
         df = prepare_data(df, latitudes, longitudes, azimuths, links)
         unique_links_list, image_name, image_time = collect_data_summary(df)
         df = temperature_predict(df)
-        #grid_x, grid_y, grid_z = interpolate_temperature(df, czech_rep, geo_proc)
         grid_x, grid_y, grid_z = spatial_interpolation(df, czech_rep, geo_proc, elevation_data, lon_elev, lat_elev)
         db_ops.realtime_writer(image_name, unique_links_list, image_time, grid_z)
         db_ops.save_parameters(start_datetime, grid_x, grid_y)
-        map_plotting(grid_x, grid_y, grid_z, czech_rep)
+        map_plotting(grid_x, grid_y, grid_z, czech_rep, image_name)
     except Exception as e:
         backend_logger.error(f"Error during data processing round: {e}\n{traceback.format_exc()}")
 

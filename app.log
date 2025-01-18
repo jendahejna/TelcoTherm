@@ -1,0 +1,115 @@
+2025-01-17 00:01:57,697 -<module> - INFO - Backend processing started
+2025-01-17 00:01:58,735 -process_data_round - INFO - Calculation started on 2025-01-17 00:01
+2025-01-17 00:05:09,041 -get_metadata - INFO - Completed get_metadata method for 5668 devices.
+2025-01-17 00:05:09,089 -process_data_round - ERROR - Error during data processing round: float() argument must be a string or a real number, not 'Timestamp'
+Traceback (most recent call last):
+  File "C:\Users\janhe\Desktop\TelcoTherm\TelcoTherm\data_processing\data_processing.py", line 50, in process_data_round
+    df = temperature_predict(df)
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\Desktop\TelcoTherm\TelcoTherm\data_processing\ml_modeling.py", line 23, in temperature_predict
+    X_scaled = scaler.transform(X)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\sklearn\utils\_set_output.py", line 140, in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\sklearn\preprocessing\_data.py", line 1004, in transform
+    X = self._validate_data(
+        ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\sklearn\base.py", line 604, in _validate_data
+    out = check_array(X, input_name="X", **check_params)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\sklearn\utils\validation.py", line 917, in check_array
+    array = _asarray_with_order(array, order=order, dtype=dtype, xp=xp)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\sklearn\utils\_array_api.py", line 380, in _asarray_with_order
+    array = numpy.asarray(array, order=order, dtype=dtype)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\pandas\core\generic.py", line 1998, in __array__
+    arr = np.asarray(values, dtype=dtype)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: float() argument must be a string or a real number, not 'Timestamp'
+
+2025-01-17 00:05:09,276 -process_data_round - INFO - Calculation ended on 2025-01-17 00:05. Waiting for another round..
+2025-01-17 00:09:25,213 -<module> - INFO - Backend processing started
+2025-01-17 00:09:26,274 -process_data_round - INFO - Calculation started on 2025-01-17 00:09
+2025-01-17 00:12:31,338 -get_metadata - INFO - Completed get_metadata method for 5668 devices.
+2025-01-17 00:12:31,377 -process_data_round - ERROR - Error during data processing round: float() argument must be a string or a real number, not 'Timestamp'
+Traceback (most recent call last):
+  File "C:\Users\janhe\Desktop\TelcoTherm\TelcoTherm\data_processing\data_processing.py", line 50, in process_data_round
+    df = temperature_predict(df)
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\Desktop\TelcoTherm\TelcoTherm\data_processing\ml_modeling.py", line 24, in temperature_predict
+    X_scaled = scaler.transform(X)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\sklearn\utils\_set_output.py", line 140, in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\sklearn\preprocessing\_data.py", line 1004, in transform
+    X = self._validate_data(
+        ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\sklearn\base.py", line 604, in _validate_data
+    out = check_array(X, input_name="X", **check_params)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\sklearn\utils\validation.py", line 917, in check_array
+    array = _asarray_with_order(array, order=order, dtype=dtype, xp=xp)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\sklearn\utils\_array_api.py", line 380, in _asarray_with_order
+    array = numpy.asarray(array, order=order, dtype=dtype)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\anaconda3\Lib\site-packages\pandas\core\generic.py", line 1998, in __array__
+    arr = np.asarray(values, dtype=dtype)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: float() argument must be a string or a real number, not 'Timestamp'
+
+2025-01-17 00:12:31,487 -process_data_round - INFO - Calculation ended on 2025-01-17 00:12. Waiting for another round..
+2025-01-17 00:16:47,277 -<module> - INFO - Backend processing started
+2025-01-17 00:16:48,476 -process_data_round - INFO - Calculation started on 2025-01-17 00:16
+2025-01-17 00:19:53,802 -get_metadata - INFO - Completed get_metadata method for 5668 devices.
+2025-01-17 00:19:53,813 -process_data_round - ERROR - Error during data processing round: 'numpy.int32' object has no attribute 'strftime'
+Traceback (most recent call last):
+  File "C:\Users\janhe\Desktop\TelcoTherm\TelcoTherm\data_processing\data_processing.py", line 49, in process_data_round
+    unique_links_list, image_name, image_time = collect_data_summary(df)
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\Desktop\TelcoTherm\TelcoTherm\data_processing\data_processing.py", line 18, in collect_data_summary
+    image_time = df["Hour"].iloc[0].strftime("%Y-%m-%d %H:%M:%S")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'numpy.int32' object has no attribute 'strftime'
+
+2025-01-17 00:19:53,949 -process_data_round - INFO - Calculation ended on 2025-01-17 00:19. Waiting for another round..
+2025-01-17 00:45:38,137 -<module> - INFO - Backend processing started
+2025-01-17 00:45:39,235 -process_data_round - INFO - Calculation started on 2025-01-17 00:45
+2025-01-17 00:48:43,280 -get_metadata - INFO - Completed get_metadata method for 5668 devices.
+2025-01-17 00:48:44,596 -process_data_round - ERROR - Error during data processing round: GeographicalProcessing.create_mask() missing 1 required positional argument: 'grid_y'
+Traceback (most recent call last):
+  File "C:\Users\janhe\Desktop\TelcoTherm\TelcoTherm\data_processing\data_processing.py", line 53, in process_data_round
+    grid_x, grid_y, grid_z = spatial_interpolation(df, czech_rep, geo_proc, elevation_data, lon_elev, lat_elev)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\janhe\Desktop\TelcoTherm\TelcoTherm\interpolation\interpolation.py", line 44, in spatial_interpolation
+    mask = geo_proc.create_mask(czech_rep, grid_points)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: GeographicalProcessing.create_mask() missing 1 required positional argument: 'grid_y'
+
+2025-01-17 00:48:44,723 -process_data_round - INFO - Calculation ended on 2025-01-17 00:48. Waiting for another round..
+2025-01-17 00:52:06,235 -<module> - INFO - Backend processing started
+2025-01-17 00:52:07,287 -process_data_round - INFO - Calculation started on 2025-01-17 00:52
+2025-01-17 00:55:10,726 -get_metadata - INFO - Completed get_metadata method for 5668 devices.
+2025-01-17 00:58:09,574 -realtime_writer - INFO - Interpolation data from 1970-01-01 23:00:00 successfully recorded.
+2025-01-17 00:58:09,623 -save_parameters - INFO - Parameters data for 2025-01-17 00:52 successfully recorded.
+2025-01-17 00:58:10,104 -process_data_round - INFO - Calculation ended on 2025-01-17 00:58. Waiting for another round..
+2025-01-18 01:20:56,530 -<module> - INFO - Backend processing started
+2025-01-18 01:20:57,836 -process_data_round - INFO - Calculation started on 2025-01-18 01:20
+2025-01-18 01:23:37,265 -get_metadata - INFO - Completed get_metadata method for 4810 devices.
+2025-01-18 01:25:42,038 -realtime_writer - INFO - Interpolation data from 1970-01-01 00:00:00 successfully recorded.
+2025-01-18 01:25:42,088 -save_parameters - INFO - Parameters data for 2025-01-18 01:20 successfully recorded.
+2025-01-18 01:25:42,698 -process_data_round - INFO - Calculation ended on 2025-01-18 01:25. Waiting for another round..
+2025-01-18 01:30:17,774 -<module> - INFO - Backend processing started
+2025-01-18 01:30:18,792 -process_data_round - INFO - Calculation started on 2025-01-18 01:30
+2025-01-18 01:32:57,519 -get_metadata - INFO - Completed get_metadata method for 4810 devices.
+2025-01-18 01:35:06,064 -<module> - INFO - Backend processing started
+2025-01-18 01:35:07,140 -process_data_round - INFO - Calculation started on 2025-01-18 01:35
+2025-01-18 01:37:33,083 -get_metadata - INFO - Completed get_metadata method for 4440 devices.
+2025-01-18 01:39:37,772 -realtime_writer - INFO - Interpolation data from 2025-01-18 00:40:00 successfully recorded.
+2025-01-18 01:39:37,819 -save_parameters - INFO - Parameters data for 2025-01-18 01:35 successfully recorded.
+2025-01-18 01:39:38,233 -process_data_round - INFO - Calculation ended on 2025-01-18 01:39. Waiting for another round..
+2025-01-18 01:43:21,825 -<module> - INFO - Backend processing started
+2025-01-18 01:43:23,010 -process_data_round - INFO - Calculation started on 2025-01-18 01:43
