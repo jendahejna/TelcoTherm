@@ -106,7 +106,7 @@ def map_plotting(grid_x, grid_y, grid_z, czech_rep, image_name, show_boundary=Fa
     ax.set_axis_off()
     save_dir = "saved_grids"
     os.makedirs(save_dir, exist_ok=True)
-    save_path = os.path.join(save_dir, f"{image_name}.png")
+    save_path = os.path.join(save_dir, f"{image_name}")
 
 
     plt.savefig(

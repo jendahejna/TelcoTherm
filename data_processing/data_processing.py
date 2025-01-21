@@ -11,12 +11,14 @@ import traceback
 backend_logger = logging.getLogger("backend_logger")
 first_run = True
 
+
 def collect_data_summary(df):
     unique_links = df["Link_ID"].unique()
     unique_links_list = list(unique_links)
 
     # Získání času a list linků
-    image_time = pd.to_datetime(df["Time"].iloc[0]).ceil('H')
+    image_time = pd.to_datetime(df["Time"].iloc[0]).ceil('h')
+
     image_hour = image_time.strftime("%Y-%m-%d_%H%M")
     image_name = f"{image_hour}.png"
 
@@ -31,8 +33,7 @@ def prepare_data(df, latitudes, longitudes, azimuths, links):
 
     df = df.dropna()
 
-    df["Time"] = pd.to_datetime(df["Time"], utc=True)
-    df["Time"] = df["Time"].dt.tz_convert("Europe/Prague")
+    df["Time"] = pd.to_datetime(df["Time"], utc=True).dt.tz_convert("Europe/Prague").dt.tz_localize(None)
     df["Hour"] = df["Time"].dt.hour
     df["Day"] = df["Time"].dt.dayofyear
     return df
