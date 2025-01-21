@@ -4,7 +4,7 @@ import datetime
 
 
 class DataSaving:
-    def __init__(self, save_directory="saved_grids"):
+    def __init__(self, save_directory="images"):
         self.save_directory = save_directory
         if not os.path.exists(self.save_directory):
             os.makedirs(self.save_directory)

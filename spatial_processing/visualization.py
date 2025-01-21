@@ -104,7 +104,7 @@ def map_plotting(grid_x, grid_y, grid_z, czech_rep, image_name, show_boundary=Fa
 
     # Nastavení os a uložení
     ax.set_axis_off()
-    save_dir = "saved_grids"
+    save_dir = "images"
     os.makedirs(save_dir, exist_ok=True)
     save_path = os.path.join(save_dir, f"{image_name}")
 
