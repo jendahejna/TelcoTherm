@@ -5,9 +5,10 @@ from config import COLORS, TEMP_OFFSET
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import os
 from config import COLORBAR_SETTINGS
+import logging
 
 n_levels = COLORBAR_SETTINGS["n_levels"]
-
+backend_logger = logging.getLogger('backend_logger')
 
 def get_heatmap(
         grid_x,
@@ -78,38 +79,50 @@ def get_heatmap(
 
 
 def map_plotting(grid_x, grid_y, grid_z, czech_rep, image_name, show_boundary=False):
-    cmap = mcolors.LinearSegmentedColormap.from_list(
-        "custom_colormap",
-        COLORBAR_SETTINGS["colormap"],
-        N=n_levels,
-    )
+    backend_logger.info("map_plotting function started with image name: %s", image_name)
+    try:
+        # Create custom colormap
+        cmap = mcolors.LinearSegmentedColormap.from_list(
+            "custom_colormap",
+            COLORBAR_SETTINGS["colormap"],
+            N=n_levels,
+        )
 
 
-    median_value = np.median(grid_z[~np.isnan(grid_z)]) - 2
-    vmin = int(median_value) - 7
-    vmax = int(median_value) + 7
-    fig, ax = plt.subplots(figsize=(8, 4), frameon=False)
-    c = ax.pcolormesh(
-        grid_x, grid_y, grid_z,
-        cmap=cmap,
-        shading="auto",
-        edgecolor="none",
-        vmin=vmin,
-        vmax=vmax
-    )
+        # Calculate median and set color limits
+        median_value = np.median(grid_z[~np.isnan(grid_z)]) - 2
+        vmin = int(median_value) - 7
+        vmax = int(median_value) + 7
+        backend_logger.debug("Calculated median value: %f, vmin: %d, vmax: %d", median_value, vmin, vmax)
 
-    # Vykreslení hranic
-    if show_boundary:
-        czech_rep.boundary.plot(ax=ax, linewidth=1, color="black")
-
-    # Nastavení os a uložení
-    ax.set_axis_off()
-    save_dir = "images"
-    os.makedirs(save_dir, exist_ok=True)
-    save_path = os.path.join(save_dir, f"{image_name}")
+        # Create figure and axis for plotting
+        fig, ax = plt.subplots(figsize=(8, 4), frameon=False)
 
 
-    plt.savefig(
+        # Create the pcolormesh plot
+        c = ax.pcolormesh(
+            grid_x, grid_y, grid_z,
+            cmap=cmap,
+            shading="auto",
+            edgecolor="none",
+            vmin=vmin,
+            vmax=vmax
+        )
+
+        # Plot boundaries if requested
+        if show_boundary:
+            czech_rep.boundary.plot(ax=ax, linewidth=1, color="black")
+
+        # Remove axes for a cleaner look
+        ax.set_axis_off()
+
+        # Create the directory if it doesn't exist and build the save path
+        save_dir = "images"
+        os.makedirs(save_dir, exist_ok=True)
+        save_path = os.path.join(save_dir, f"{image_name}")
+
+        # Save the figure to file
+        plt.savefig(
             save_path,
             format="png",
             dpi=150,
@@ -117,3 +130,11 @@ def map_plotting(grid_x, grid_y, grid_z, czech_rep, image_name, show_boundary=Fa
             bbox_inches="tight",
             pad_inches=0,
         )
+        plt.close(fig)
+
+        backend_logger.info("Plot saved successfully at %s", save_path)
+
+    except Exception as e:
+        backend_logger.exception("Exception in map_plotting function: %s", e)
+        raise
+
